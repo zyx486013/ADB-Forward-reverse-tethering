@@ -1,0 +1,80 @@
+{
+	"log": {
+		"loglevel": "debug"
+	},
+	"reverse": {
+		"portals": [
+			{
+				"tag": "portal",
+				"domain": "localhost.com"
+			}
+		]
+	},
+	"inbounds": [
+		{
+			"tag": "interconn",
+			"port": 8388,
+			"protocol": "vmess",
+			"settings": {
+				"clients": [
+					{
+						"id": "be9e66f6-c4d9-4ea1-a743-b09afcd3dbef"
+					}
+				]
+			},
+			"streamSettings": {
+				"network": "tcp"
+			},
+			"sniffing": {
+				"enabled": true,
+				"destOverride": [
+					"http",
+					"tls"
+				]
+			}
+		},
+		{
+			"tag": "tunnel",
+			"port": 15000,
+			"protocol": "vmess",
+			"settings": {
+				"clients": [
+					{
+						"id": "be9e66f6-c4d9-4ea1-a743-b09afcd3dbef"
+					}
+				]
+			},
+			"streamSettings": {
+				"network": "tcp"
+			},
+			"sniffing": {
+				"enabled": true,
+				"destOverride": [
+					"http",
+					"tls"
+				]
+			}
+		}
+	],
+	"routing": {
+		"rules": [
+			{
+				"type": "field",
+				"inboundTag": [
+					"interconn"
+				],
+				"outboundTag": "portal"
+			},
+			{
+				"type": "field",
+				"inboundTag": [
+					"tunnel"
+				],
+				"domain": [
+					"full:localhost.com"
+				],
+				"outboundTag": "portal"
+			}
+		]
+	}
+}

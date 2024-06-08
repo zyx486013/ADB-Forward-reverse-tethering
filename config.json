@@ -1,0 +1,57 @@
+{
+	"log": {
+		"loglevel": "debug"
+	},
+	"reverse": {
+		"bridges": [
+			{
+				"tag": "bridge",
+				"domain": "localhost.com"
+			}
+		]
+	},
+	"outbounds": [
+		{
+			"tag": "tunnel",
+			"protocol": "vmess",
+			"settings": {
+				"vnext": [
+					{
+						"address": "127.0.0.1",
+						"port": 18630,
+						"users": [
+							{
+								"id": "be9e66f6-c4d9-4ea1-a743-b09afcd3dbef"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"tag": "direct",
+			"protocol": "freedom"
+		}
+	],
+	"routing": {
+		"rules": [
+			{
+				"type": "field",
+				"inboundTag": [
+					"bridge"
+				],
+				"domain": [
+					"full:localhost.com"
+				],
+				"outboundTag": "tunnel"
+			},
+			{
+				"type": "field",
+				"inboundTag": [
+					"bridge"
+				],
+				"outboundTag": "direct"
+			}
+		]
+	}
+}
